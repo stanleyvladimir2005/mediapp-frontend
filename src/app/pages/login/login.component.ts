@@ -1,6 +1,10 @@
-import { MenuService } from '../../_service/menu.service';
 import { LoginService } from '../../_service/login.service';
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
+import {environment} from "../../../environments/environment";
+import {JwtHelperService} from "@auth0/angular-jwt";
+import {MenuService} from "../../_service/menu.service";
+
 
 @Component({
   selector: 'app-login',
@@ -9,21 +13,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  usuario!: string;
-  clave!: string;
-  mensaje: string = "";
+  user_name: string;
+  password: string;
+  message: string = "";
   error: string = "";
 
-  constructor(private loginService: LoginService, private menuService: MenuService) { }
+  constructor(private loginService: LoginService, private router: Router, private menuService: MenuService) { }
 
   ngOnInit() {
   }
 
-  iniciarSesion(){}
 
+  iniciarSesion() {
+    this.loginService.login(this.user_name, this.password).subscribe(data => {
+      if (data) {
+
+        const helper = new JwtHelperService();
+        sessionStorage.setItem(environment.TOKEN_NAME, data.access_token);
+
+        let token = sessionStorage.getItem(environment.TOKEN_NAME);
+        let decodedToken = helper.decodeToken(token);
+        console.log(decodedToken);
+
+        this.menuService.listarPorUsuario(decodedToken.user_name).subscribe(data => {
+          this.menuService.menuCambio.next(data);
+          this.router.navigate(['layaout']);
+        });
+
+      }
+    });
+  }
 
   ngAfterViewInit() {
     (window as any).initialize();
   }
-
 }

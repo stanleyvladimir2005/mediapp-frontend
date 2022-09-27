@@ -27,17 +27,17 @@ export class ConsultaComponent implements OnInit {
   fechaSeleccionada: Date = new Date();
   maxFecha: Date = new Date();
 
-  diagnostico!: string;
-  tratamiento! : string;
-  mensaje!: string;
+  diagnostico: string;
+  tratamiento : string;
+  mensaje: string;
 
   detalleConsulta: DetalleConsulta[] = [];
   examenesSeleccionados: Examen[] = [];
 
-  idPacienteSeleccionado!: number;
-  idEspecialidadSeleccionado!: number;
-  idMedicoSeleccionado!: number;
-  idExamenSeleccionado!: number;
+  idPacienteSeleccionado: number;
+  idEspecialidadSeleccionado: number;
+  idMedicoSeleccionado: number;
+  idExamenSeleccionado: number;
 
   constructor(
     private pacienteService: PacienteService, private especialidadService: EspecialidadService, private medicoService: MedicoService,
@@ -80,9 +80,6 @@ export class ConsultaComponent implements OnInit {
       det.diagnostico = this.diagnostico;
       det.tratamiento = this.tratamiento;
       this.detalleConsulta.push(det);
-
-      this.diagnostico = '';
-      this.tratamiento = '';
     }
   }
 
@@ -109,7 +106,7 @@ export class ConsultaComponent implements OnInit {
         let examen = new Examen();
         examen.idExamen = this.idExamenSeleccionado;
 
-        this.examenService.listarPorID(this.idExamenSeleccionado).subscribe(data => {
+        this.examenService.listarPorId(this.idExamenSeleccionado).subscribe(data => {
           examen.nombre = data.nombre;
           examen.descripcion = data.descripcion;
           this.examenesSeleccionados.push(examen);
@@ -141,7 +138,6 @@ export class ConsultaComponent implements OnInit {
     //ISODATE
     let tzoffset = (this.fechaSeleccionada).getTimezoneOffset() * 60000;
     let localISOTime = (new Date(Date.now() - tzoffset)).toISOString();
-    //console.log(localISOTime);//yyy-mm-ddTHH:mm:ss
     consulta.fecha = localISOTime;
     consulta.detalleConsulta = this.detalleConsulta;
 

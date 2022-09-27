@@ -16,8 +16,12 @@
         <input matInput placeholder="Email" [(ngModel)]="medico.email" max="60" maxlength="60">
     </mat-form-field>
     <mat-form-field>
+       <input matInput placeholder="Photo" [(ngModel)]="medico.photoUrl">
+   </mat-form-field>
+    <img mat-card-image [src]="medico.photoUrl" alt="" width="50%" height="50%" *ngIf="medico.photoUrl">
+    <mat-form-field>
         <input matInput placeholder="Estado" [(ngModel)]="medico.estado">
-    </mat-form-field>      
+    </mat-form-field>
 </div>
 <button mat-raised-button color="primary" (click)="operar()">Aceptar</button>
 <button mat-raised-button color="accent" (click)="cancelar()">Cancelar</button>

@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PacienteComponent } from './pages/paciente/paciente.component';
@@ -21,6 +21,22 @@ import { ExamenDialogComponent } from './pages/examen/examen-dialog/examen-dialo
 import { EspecialidadDialogComponent } from './pages/especialidad/especialidad-dialog/especialidad-dialog.component';
 import { MedicoDialogComponent } from './pages/medico/medico-dialog/medico-dialog.component';
 import { DialogoDetalleComponent } from './pages/buscar/dialogo-detalle/dialogo-detalle.component';
+import {ConsultaAsistenteComponent} from "./pages/consulta-asistente/consulta-asistente.component";
+import {FlexLayoutModule} from "@angular/flex-layout";
+import {PdfViewerModule} from "ng2-pdf-viewer";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {environment} from "../environments/environment";
+import {JwtModule} from "@auth0/angular-jwt";
+import { LayoutComponent } from './pages/layout/layout.component';
+import { Not403Component } from './pages/not403/not403.component';
+import { Not404Component } from './pages/not404/not404.component';
+import {ServerErrorsInterceptor} from "./pages/shared/server-errors.interceptor";
+
+export function tokenGetter(){
+  let tk = sessionStorage.getItem(environment.TOKEN_NAME);
+  let token = tk != null ? tk : '';
+  return token;
+}
 
 @NgModule({
   declarations: [
@@ -30,6 +46,7 @@ import { DialogoDetalleComponent } from './pages/buscar/dialogo-detalle/dialogo-
     ExamenComponent,
     EspecialidadComponent,
     ConsultaComponent,
+    ConsultaAsistenteComponent,
     EspecialComponent,
     ReporteComponent,
     LoginComponent,
@@ -38,7 +55,10 @@ import { DialogoDetalleComponent } from './pages/buscar/dialogo-detalle/dialogo-
     ExamenDialogComponent,
     EspecialidadDialogComponent,
     MedicoDialogComponent,
-    DialogoDetalleComponent
+    DialogoDetalleComponent,
+    LayoutComponent,
+    Not403Component,
+    Not404Component,
   ],
   entryComponents: [MedicoDialogComponent, PacienteDialogComponent, ExamenDialogComponent, EspecialidadDialogComponent, DialogoDetalleComponent],
   imports: [
@@ -47,10 +67,24 @@ import { DialogoDetalleComponent } from './pages/buscar/dialogo-detalle/dialogo-
     BrowserAnimationsModule,
     HttpClientModule,
     MaterialModule,
-    FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule, //para uso de forms
+    FormsModule, //para two-way binding
+    FlexLayoutModule,
+    PdfViewerModule,
+    MatProgressBarModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['localhost:8082'],
+        disallowedRoutes: ['http://localhost:8082/login/forget']
+      }
+    })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS, useClass: ServerErrorsInterceptor, multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

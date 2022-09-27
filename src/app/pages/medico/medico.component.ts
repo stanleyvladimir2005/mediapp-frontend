@@ -35,6 +35,7 @@ export class MedicoComponent implements OnInit {
        this.dataSource.sort= this.sort;
      })
 
+
      //este bloque sirve para que muestre un aviso por insercion, actualizacion o eliminacion usando la variable ractiva
     this.MedicoService.mensajeCambio.subscribe(data => {
       this.snackBar.open(data,'AVISO', {
@@ -49,6 +50,10 @@ export class MedicoComponent implements OnInit {
     });
   }
 
+    applyFilter(e: any) {
+       this.dataSource.filter = e.target.value.trim().toLowerCase();
+    }
+
   // ? se usa para decir que medico es opcional
     openDialog(medico?: Medico) {
       //si el medico es diferente a nulo ten la instancia, si es nulo se crea una nueva instancia
@@ -58,10 +63,6 @@ export class MedicoComponent implements OnInit {
           width: '250px',
           data: med
        });
-    }
-
-    filtrar(filterValue: string) {
-      this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
     eliminar(idMedico: number) {

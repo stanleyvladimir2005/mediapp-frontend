@@ -1,5 +1,10 @@
 <router-outlet></router-outlet>
 
+<mat-form-field appearance="standard">
+  <mat-label>Filtro</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+</mat-form-field>
+
 <mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="idMedico">
     <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>

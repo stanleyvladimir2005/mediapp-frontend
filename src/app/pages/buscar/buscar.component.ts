@@ -20,8 +20,8 @@ export class BuscarComponent implements OnInit {
   form!: FormGroup;
   displayedColumns = ['paciente', 'medico', 'especialidad', 'fecha', 'acciones'];
   dataSource!: MatTableDataSource<Consulta>;
-  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort!: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   progress: boolean = false;
 
@@ -42,17 +42,10 @@ export class BuscarComponent implements OnInit {
   buscar() {
     let filtro = new FiltroConsultaDTO(this.form.value['dui'], this.form.value['nombreCompleto'], this.form.value['fechaConsulta']);
     filtro.nombreCompleto = filtro.nombreCompleto.toLowerCase();
-
     this.utilService.estadoProgress.next(true);
-
     setTimeout(() => {
 
     }, 2000);
-    /*{
-      "dni" : "785956",
-      "nombreCompleto" : "Jaime",
-      "fechaConsulta" : "20-08-2019"
-    }*/
 
     if (filtro.fechaConsulta) {
       this.consultaService.buscar(filtro).subscribe(data => {
@@ -61,7 +54,7 @@ export class BuscarComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.utilService.estadoProgress.next(false);
       });
-    } 
+    }
 
       this.consultaService.buscar(filtro).subscribe(data => {
         this.dataSource = new MatTableDataSource(data);
@@ -72,6 +65,7 @@ export class BuscarComponent implements OnInit {
 
   verDetalle(consulta: Consulta) {
     this.dialog.open(DialogoDetalleComponent, {
+      width: '750px',
       data: consulta
     });
   }

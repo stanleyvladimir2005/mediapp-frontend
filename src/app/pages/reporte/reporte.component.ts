@@ -11,11 +11,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class ReporteComponent implements OnInit {
 
   chart: any;
-  tipo!: string;
-  pdfSrc!: string;
+  tipo: string;
+  pdfSrc: string;
 
-  selectedFiles!: FileList;
-  currentFileUpload!: File ;
+  selectedFiles: FileList;
+  currentFileUpload: File ;
   labelFile!: string;
 
   imagenData: any;
@@ -135,22 +135,13 @@ export class ReporteComponent implements OnInit {
     this.selectedFiles = e.target.files;
   }
 
-  /*
   subirArchivo() {
     this.currentFileUpload = this.selectedFiles.item(0);
 
-    this.consultaService.guardarArchivo(this.currentFileUpload).subscribe(data => {
-      console.log(data);
-      this.selectedFiles = undefined;
-    });
-  }*/
+    this.consultaService.guardarArchivo(this.currentFileUpload)
+             .subscribe(data => {this.selectedFiles = undefined; });
+  }
 
-
-  accionImagen(accion: string){
-    if(accion === "M"){
-      this.imagenEstado = true;
-    }else{
-      this.imagenEstado = false;
-    }
+  accionImagen(accion: string){ this.imagenEstado = accion === "M";
   }
 }

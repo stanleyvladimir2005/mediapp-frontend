@@ -18,7 +18,7 @@ export class EspecialidadComponent implements OnInit {
 
   dataSource!: MatTableDataSource<Especialidad>; //Definimos la data de origen para la tabla
   displayedColumns = ['idEspecialidad','nombre','acciones']; //definimos las columnas a mostrar en la tabla
-  
+
   //Propiedad que permite simular un document.getElementByIden angular 8 se necesita un static=true para habilitar la subdivisiones
   @ViewChild(MatSort,{static: true}) sort!: MatSort;
 
@@ -26,7 +26,7 @@ export class EspecialidadComponent implements OnInit {
   @ViewChild(MatPaginator,{static: true}) paginator !: MatPaginator;
 
    constructor(private especialidadService: EspecialidadService, private dialog: MatDialog, private snackBar: MatSnackBar) { }
-   
+
   ngOnInit() {
     //Bloque usando variable reactiva para actualizar la data en 2 componentes
      this.especialidadService.especialidadCambio.subscribe(data => {
@@ -48,7 +48,11 @@ export class EspecialidadComponent implements OnInit {
       this.dataSource.paginator = this.paginator //se habilita el conteo de paginador
     });
   }
- 
+
+    applyFilter(e: any) {
+      this.dataSource.filter = e.target.value.trim().toLowerCase();
+    }
+
   // ? se usa para decir que Especialidad es opcional
     openDialog(especialidad?: Especialidad) {
       //si el Especialidad es diferente a nulo ten la instancia, si es nulo se crea una nueva instancia
@@ -60,10 +64,6 @@ export class EspecialidadComponent implements OnInit {
        });
     }
 
-    filtrar(filterValue: string) {
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-    }
-  
     eliminar(idEspecialidad: number) {
       this.especialidadService.eliminar(idEspecialidad).pipe(switchMap(() => {
         return this.especialidadService.listar();

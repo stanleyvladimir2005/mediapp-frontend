@@ -37,7 +37,7 @@ export class ExamenDialogComponent implements OnInit {
         this.examenService.mensajeCambio.next("SE MODIFICO");
       });
     } else {
-      this.examenService.registar(this.examen).pipe(switchMap(() => {
+      this.examenService.registrar(this.examen).pipe(switchMap(() => {
         return this.examenService.listar();
       })).subscribe(examens => {
         this.examenService.examenCambio.next(examens);

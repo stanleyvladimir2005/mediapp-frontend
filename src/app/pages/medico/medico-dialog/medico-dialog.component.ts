@@ -16,14 +16,7 @@ export class MedicoDialogComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<MedicoDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: Medico, private medicoService: MedicoService) { }
 
   ngOnInit() {
-    this.medico = new Medico();
-    this.medico.idMedico = this.data.idMedico;
-    this.medico.nombres = this.data.nombres;
-    this.medico.apellidos = this.data.apellidos;
-    this.medico.dui = this.data.dui;
-    this.medico.telefono = this.data.telefono;
-    this.medico.email = this.data.email;
-    this.medico.estado = this.data.estado;
+    this.medico = { ...this.data}
   }
 
   cancelar() {
@@ -37,10 +30,10 @@ export class MedicoDialogComponent implements OnInit {
         return this.medicoService.listar();
       })).subscribe(medicos => {
         this.medicoService.medicoCambio.next(medicos);
-        this.medicoService.mensajeCambio.next("SE MODIFICO");
+        this.medicoService.mensajeCambio.next("SE Modifico");
       });
     } else {
-      this.medicoService.registar(this.medico).pipe(switchMap(() => {
+      this.medicoService.registrar(this.medico).pipe(switchMap(() => {
         return this.medicoService.listar();
       })).subscribe(medicos => {
         this.medicoService.medicoCambio.next(medicos);

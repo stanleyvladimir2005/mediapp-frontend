@@ -36,7 +36,7 @@ export class EspecialidadDialogComponent implements OnInit {
         this.especialidadService.mensajeCambio.next("SE MODIFICO");
       });
     } else {
-      this.especialidadService.registar(this.especialidad).pipe(switchMap(() => {
+      this.especialidadService.registrar(this.especialidad).pipe(switchMap(() => {
         return this.especialidadService.listar();
       })).subscribe(Especialidads => {
         this.especialidadService.especialidadCambio.next(Especialidads);

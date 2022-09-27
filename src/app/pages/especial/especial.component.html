@@ -1,26 +1,19 @@
 <mat-toolbar>Registro de Consulta Especial</mat-toolbar>
 
 <form class="example-container" [formGroup]="form" (ngSubmit)="aceptar()" #consultaForm="ngForm">
+
     <div class="example-container">
         <mat-form-field>
             <input type="text" placeholder="Paciente" matInput [matAutocomplete]="autoPaciente"
                 [formControl]="myControlPaciente" formControlName="paciente">
         </mat-form-field>
-        <mat-autocomplete #autoPaciente="matAutocomplete" [displayWith]="displayFn"
-            (optionSelected)="seleccionarPaciente($event)">
-            <mat-option *ngFor="let p of filteredOptions | async" [value]="p">
+        <mat-autocomplete #autoPaciente="matAutocomplete"
+            (optionSelected)="seleccionarPaciente($event)" [displayWith]="displayFnPaciente">
+            <mat-option *ngFor="let p of filteredOptionsPaciente | async" [value]="p">
                 {{ p.nombres }} {{p.apellidos}}
             </mat-option>
         </mat-autocomplete>
     </div>
-
-    <mat-form-field>
-        <mat-select placeholder="Especialidad" [(value)]="especialidadSeleccionada" formControlName="especialidad">
-            <mat-option *ngFor="let e of especialidades" [value]="e">
-                {{ e.nombre }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
 
     <mat-form-field>
         <input type="text" placeholder="Médico" matInput [matAutocomplete]="autoMedico" [formControl]="myControlMedico"
@@ -33,9 +26,16 @@
         </mat-autocomplete>
     </mat-form-field>
 
-    <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Escoge una fecha" [max]="maxFecha"
-            formControlName="fecha">
+   <mat-form-field>
+      <mat-select placeholder="Especialidad" [(value)]="especialidadSeleccionada" formControlName="especialidad">
+         <mat-option *ngFor="let e of especialidades" [value]="e">
+          {{ e.nombre }}
+         </mat-option>
+       </mat-select>
+   </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <input matInput [matDatepicker]="picker" placeholder="Escoge una fecha" [max]="maxFecha" formControlName="fecha">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>

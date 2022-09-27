@@ -4,10 +4,10 @@ import { Medico } from "./medico";
 import { Paciente } from "./paciente";
 
 export class Consulta {
-    idConsulta!:      number;
-    paciente!:        Paciente;
-    medico!:          Medico;
-    especialidad!:    Especialidad;
-    fecha!:           string;
-    detalleConsulta!: DetalleConsulta[];
+    idConsulta:      number;
+    paciente:        Paciente;
+    medico:          Medico;
+    especialidad:    Especialidad;
+    fecha:           string;
+    detalleConsulta: DetalleConsulta[];
 }

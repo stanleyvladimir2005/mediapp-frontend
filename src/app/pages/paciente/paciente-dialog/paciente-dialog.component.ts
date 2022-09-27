@@ -38,10 +38,10 @@ export class PacienteDialogComponent implements OnInit {
         return this.pacienteService.listar();
       })).subscribe(Pacientes => {
         this.pacienteService.pacienteCambio.next(Pacientes);
-        this.pacienteService.mensajeCambio.next("SE MODIFICO");
+        this.pacienteService.mensajeCambio.next("SE Modifico");
       });
     } else {
-      this.pacienteService.registar(this.paciente).pipe(switchMap(() => {
+      this.pacienteService.registrar(this.paciente).pipe(switchMap(() => {
         return this.pacienteService.listar();
       })).subscribe(pacientes => {
         this.pacienteService.pacienteCambio.next(pacientes);

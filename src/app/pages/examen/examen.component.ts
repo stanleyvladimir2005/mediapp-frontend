@@ -49,6 +49,10 @@ export class ExamenComponent implements OnInit {
     });
   }
 
+    applyFilter(e: any) {
+       this.dataSource.filter = e.target.value.trim().toLowerCase();
+     }
+
   // ? se usa para decir que examen es opcional
     openDialog(examen?: Examen) {
       //si el examen es diferente a nulo ten la instancia, si es nulo se crea una nueva instancia

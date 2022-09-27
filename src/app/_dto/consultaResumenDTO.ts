@@ -1,4 +1,4 @@
 export class ConsultaResumenDTO {
-    cantidad!: number;
-    fecha!:    string;
+    cantidad: number;
+    fecha:    string;
 }

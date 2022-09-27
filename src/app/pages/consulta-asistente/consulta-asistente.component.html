@@ -1,0 +1,143 @@
+<mat-slide-toggle (toggleChange)="isLinear = !isLinear">
+  {{isLinear ? 'Lineal mode activate': 'Lineal mode inactive'}}
+</mat-slide-toggle>
+
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <ng-template matStepLabel>Principal</ng-template>
+
+    <form [formGroup]="firstFormGroup">
+      <mat-form-field>
+        <mat-select placeholder="Seleccione Paciente" formControlName="pacientes">
+          <mat-option *ngFor="let p of paciente" [value]="p">
+            {{p.nombres}} {{p.apellidos}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Seleccione Especialidad" formControlName="especialidades">
+          <mat-option *ngFor="let e of especialidad" [value]="e">
+            {{e.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Select a date</mat-label>
+        <input matInput [matDatepicker]="picker" [max]="maxDate" formControlName="fecha">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Diagnostico" formControlName="diagnostico">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Tratamiento" formControlName="tratamiento">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="button" (click)="addDetail()">Agregar Detalle</button>
+
+      <mat-expansion-panel *ngFor="let det of detalles; let i=index">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{i + 1}} {{det.diagnostico}}
+          </mat-panel-title>
+          <mat-panel-description>
+            View Treatment
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <mat-form-field>
+          <textarea matInput placeholder="Treatment" value="{{det.tratamiento}}"></textarea>
+        </mat-form-field>
+
+        <button mat-raised-button color="warn" (click)="removeDetail(i)">Remove</button>
+      </mat-expansion-panel>
+
+      <mat-form-field>
+        <mat-select placeholder="Seleccione Examenes" formControlName="examenes">
+          <mat-option *ngFor="let p of examen" [value]="p">
+            {{p.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="button" (click)="addExam()">Agregar Examenes</button>
+
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let ex of examenesSeleccionados; let i = index">
+          {{i + 1}} {{ ex.nombre }}
+        </mat-list-item>
+      </mat-list>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%">
+
+        <mat-card *ngFor="let m of medico" class="example-card">
+          <mat-card-header>
+            <img mat-card-avatar [src]="m.photoUrl" alt="Avatar of medic">
+            <mat-card-title [ngClass]="medicosSeleccionados == m ? 'medicCSS': ''">
+              {{m.nombres}} {{m.apellidos}}
+            </mat-card-title>
+            <mat-card-subtitle>{{m.dui}}</mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image [src]="m.photoUrl" alt="Photo of medic" (click)="selectMedic(m)"
+               style="cursor: pointer;">
+          <mat-card-content>
+            <p>
+              Este es el médico con nombre {{m.nombres + ' ' + m.apellidos}}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" type="button" (click)="selectMedic(m)">Elegir Medico</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+      <div>
+        <button mat-raised-button matStepperNext type="button" color="primary"
+                style="float: right">Next</button>
+      </div>
+    </form>
+
+  </mat-step>
+
+  <mat-step [stepControl]="secondFormGroup">
+    <ng-template matStepLabel>Consultas</ng-template>
+
+    <form [formGroup]="secondFormGroup">
+      <h2 id="consult">Seleccion Numero de Consulta</h2>
+
+      <mat-grid-list cols="10">
+        <mat-grid-tile *ngFor="let n of consultas" (click)="selectConsult(n)"
+                       [ngClass]="consultasSeleccionado == n ? 'consultCSS' : ''" style="cursor: pointer">
+          C{{n}}</mat-grid-tile>
+      </mat-grid-list>
+
+      <div>
+        <button mat-raised-button matStepperPrevious type="button">Previous</button>
+        <button mat-raised-button type="button" color="primary" style="float: right"
+                (click)="nextManualStep()">Next</button>
+      </div>
+
+    </form>
+
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Confirm</ng-template>
+
+    <h3>Especialidad: {{f['especialidades']?.value?.nombre}}</h3>
+    <h3>Paciente: {{f['pacientes']?.value?.nombres + ''   + f['pacientes']?.value?.apellidos}}</h3>
+
+    <h3 *ngIf="medicosSeleccionados">Medic: {{medicosSeleccionados?.nombres + ' ' + medicosSeleccionados?.apellidos}}</h3>
+    <h3>Numero de Consulta: {{'C' + consultasSeleccionado}}</h3>
+
+    <div>
+      <button mat-raised-button matStepperPrevious type="button">Regresar</button>
+      <button mat-raised-button (click)="save()" color="primary">Guardar</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

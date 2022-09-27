@@ -54,6 +54,10 @@ export class PacienteComponent implements OnInit {
       });
   }
 
+  applyFilter(e: any) {
+    this.dataSource.filter = e.target.value.trim().toLowerCase();
+  }
+
   mostrarMas(e : any){
     console.log(e);
     this.pacienteService.listarPageable(e.pageIndex, e.pageSize).subscribe(data => {
@@ -73,10 +77,6 @@ export class PacienteComponent implements OnInit {
           width: '250px',
           data: pac
        });
-    }
-
-    filtrar(filterValue: string) {
-      this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
     eliminar(idPaciente: number) {
