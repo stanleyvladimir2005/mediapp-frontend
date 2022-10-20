@@ -75,13 +75,13 @@ export function tokenGetter(){
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ['localhost:8082'],
-        disallowedRoutes: ['http://localhost:8082/login/forget']
+        allowedDomains: ['localhost:8080'],
+        disallowedRoutes: ['http://localhost:8080/login/forget']
       }
     })
   ],
   providers: [
-    {
+   {
       provide: HTTP_INTERCEPTORS, useClass: ServerErrorsInterceptor, multi: true
     }
   ],
