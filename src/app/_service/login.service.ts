@@ -12,8 +12,8 @@ export class LoginService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  login(usuario: string, contrasena: string) {
-    const body = `grant_type=password&username=${encodeURIComponent(usuario)}&password=${encodeURIComponent(contrasena)}`;
+  login(user: string, password: string) {
+    const body = `grant_type=password&username=${encodeURIComponent(user)}&password=${encodeURIComponent(password)}`;
 
     return this.http.post<any>(this.url, body, {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8').set('Authorization', 'Basic ' + btoa(environment.TOKEN_AUTH_USERNAME + ':' + environment.TOKEN_AUTH_PASSWORD))
@@ -25,7 +25,7 @@ export class LoginService {
     return token != null
   }
 
-  cerrarSesion() {
+  logout() {
     let token = sessionStorage.getItem(environment.TOKEN_NAME);
     this.http.get(`${environment.HOST}/tokens/anular/${token}`).subscribe(() => {
       sessionStorage.clear();

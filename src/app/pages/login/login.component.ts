@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {MenuService} from "../../_service/menu.service";
+import '../../../assets/login-animation.js';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
   }
 
 
-  iniciarSesion() {
+  login() {
     this.loginService.login(this.user_name, this.password).subscribe(data => {
       if (data) {
 
@@ -35,9 +36,9 @@ export class LoginComponent implements OnInit {
         let decodedToken = helper.decodeToken(token);
         console.log(decodedToken);
 
-        this.menuService.listarPorUsuario(decodedToken.user_name).subscribe(data => {
-          this.menuService.menuCambio.next(data);
-          this.router.navigate(['layaout']);
+        this.menuService.findByUser(decodedToken.user_name).subscribe(data => {
+          this.menuService.menuChange.next(data);
+          this.router.navigate(['/pages/dashboard']);
         });
 
       }

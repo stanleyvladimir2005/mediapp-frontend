@@ -4,30 +4,30 @@ import { Inject, Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class GenericService<T> { //Generico para reducir codigo repetido de las operaciones tradicionales CRUD
+export class GenericService<T> {
 
   constructor(
     protected http: HttpClient,
     @Inject("url") protected url: string
   ) { }
 
-  listar(){
+  findAll(){
     return this.http.get<T[]>(this.url);
   }
 
-  listarPorId(id: number){
+  findById(id: number){
     return this.http.get<T>(`${this.url}/${id}`)
   }
 
-  registrar(t: T){
+  save(t: T){
     return this.http.post(this.url, t);
   }
 
-  modificar(t: T){
-    return this.http.put(this.url, t);
+  update(t: T, id: number){
+    return this.http.put(`${this.url}/${id}`, t);
   }
 
-  eliminar(id: number){
+  delete(id: number){
     return this.http.delete(`${this.url}/${id}`)
   }
 }

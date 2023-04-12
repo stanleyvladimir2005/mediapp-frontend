@@ -1,0 +1,45 @@
+<mat-toolbar>Búsqueda de Consulta</mat-toolbar>
+
+<mat-progress-bar mode="indeterminate" *ngIf="progress"></mat-progress-bar>
+
+<form [formGroup]="form" (ngSubmit)="search()">
+    <mat-form-field>
+        <input matInput placeholder="DUI" formControlName="dui">
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Full Name" formControlName="fullName">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Search</button>
+</form>
+
+<mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="patient">
+      <mat-header-cell *matHeaderCellDef> Patient </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.patient.firstName }} {{element.patient.lastName}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="medic">
+      <mat-header-cell *matHeaderCellDef> Medic </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.medic.firstName }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="specialty">
+      <mat-header-cell *matHeaderCellDef> Specialty </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.specialty.specialtyName}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button type="button" mat-raised-button color="primary" (click)="getDetails(element)">Details</button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>

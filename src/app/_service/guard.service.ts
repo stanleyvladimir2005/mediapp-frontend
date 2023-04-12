@@ -22,7 +22,7 @@ export class GuardService implements CanActivate{
     //1) VERIFICAR SI EL USUARIO ESTA LOGUEADO
     let rpta = this.loginService.isLogged();
     if (!rpta) {
-      this.loginService.cerrarSesion();
+      this.loginService.logout();
       return false;
     }
     //2) VERIFICAR SI EL TOKEN NO HA EXPIRADO
@@ -34,8 +34,8 @@ export class GuardService implements CanActivate{
       let url = state.url;
       const decodedToken = helper.decodeToken(token);
 
-      return this.menuService.listarPorUsuario(decodedToken.user_name).pipe(map( (data: Menu[]) => {
-        this.menuService.setMenuCambio(data);
+      return this.menuService.findByUser(decodedToken.user_name).pipe(map( (data: Menu[]) => {
+        this.menuService.setMenuChange(data);
 
         let cont = 0;
         for (let m of data) {
@@ -55,7 +55,7 @@ export class GuardService implements CanActivate{
       }));
 
     } else {
-      this.loginService.cerrarSesion();
+      this.loginService.logout();
       return false;
     }
   }

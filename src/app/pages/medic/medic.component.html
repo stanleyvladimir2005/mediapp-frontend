@@ -1,0 +1,57 @@
+<router-outlet></router-outlet>
+
+<mat-form-field appearance="standard">
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+</mat-form-field>
+
+<mat-table [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="idMedic">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.idMedic}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="firstName">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> First Name </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.firstName}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="lastName">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.lastName}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="dui">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Dui </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.dui}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="phone">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Phone </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.phone}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.email}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <button mat-button color="primary" (click)="openDialog(row)">Update</button><!-- Se utiliza dialogos para el modificar-->
+      <button mat-button color="accent" (click)="delete(row.idMedic)">Delete</button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;">
+
+  </mat-row>
+</mat-table>
+
+<mat-paginator [pageSize]="10" [pageSizeOptions]="[5,10,25]"></mat-paginator>
+
+<button mat-fab color="accent" (click)="openDialog()" style="float: right; margin-right: 20px">
+  <mat-icon>create</mat-icon>
+</button>

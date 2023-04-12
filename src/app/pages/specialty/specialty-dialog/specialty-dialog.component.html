@@ -1,0 +1,11 @@
+<div>
+    <!-- Este bloque contine la data del dialog-->
+    <mat-form-field>
+        <input matInput placeholder="Specialty Name" [(ngModel)]="specialty.specialtyName" max="50" maxlength="50">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Status" [(ngModel)]="specialty.status">
+    </mat-form-field>
+</div>
+<button mat-raised-button color="primary" (click)="operate()">Save</button>
+<button mat-raised-button color="accent" (click)="close()">Close</button>

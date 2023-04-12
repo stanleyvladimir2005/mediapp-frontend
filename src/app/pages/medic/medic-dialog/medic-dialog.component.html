@@ -1,0 +1,27 @@
+<div>
+    <!-- Este bloque contine la data del dialog-->
+    <mat-form-field>
+        <input matInput placeholder="First Name" [(ngModel)]="medic.firstName" max="70" maxlength="70">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Last Name" [(ngModel)]="medic.lastName" max="70" maxlength="70">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Dui" [(ngModel)]="medic.dui" max="9" maxlength="9">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Phone" [(ngModel)]="medic.phone" max="8" maxlength="8">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Email" [(ngModel)]="medic.email" max="60" maxlength="60">
+    </mat-form-field>
+    <mat-form-field>
+       <input matInput placeholder="Photo" [(ngModel)]="medic.photoUrl">
+   </mat-form-field>
+    <img mat-card-image [src]="medic.photoUrl" alt="" width="50%" height="50%" *ngIf="medic.photoUrl">
+    <mat-form-field>
+        <input matInput placeholder="Status" [(ngModel)]="medic.status">
+    </mat-form-field>
+</div>
+<button mat-raised-button color="primary" (click)="operate()">Aceptar</button>
+<button mat-raised-button color="accent" (click)="close()">Cancelar</button>

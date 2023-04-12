@@ -1,0 +1,14 @@
+<div>
+    <!-- Este bloque contine la data del dialog-->
+    <mat-form-field>
+        <input matInput placeholder="Nombre" [(ngModel)]="exam.examName" max="50" maxlength="50">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Descripcion" [(ngModel)]="exam.description" max="150" maxlength="150">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Estado" [(ngModel)]="exam.status">
+    </mat-form-field>
+</div>
+<button mat-raised-button color="primary" (click)="operate()">OK</button>
+<button mat-raised-button color="accent" (click)="close()">Close</button>

@@ -17,13 +17,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import {MatNativeDateModule, MAT_DATE_LOCALE, DateAdapter} from '@angular/material/core';
 import {CommonModule} from "@angular/common";
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatListModule} from "@angular/material/list";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {CustomDateAdapter} from "./custom-adapter";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @NgModule({
   declarations: [ ],
@@ -54,10 +56,12 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     MatSlideToggleModule,
     MatCardModule,
     MatGridListModule,
-    MatTabsModule
+    MatTabsModule,
+    MatProgressBarModule
   ],
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    { provide: DateAdapter, useClass: CustomDateAdapter}
   ]
 })
 export class MaterialModule { }

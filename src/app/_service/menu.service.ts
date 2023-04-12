@@ -9,30 +9,30 @@ import {Subject} from "rxjs";
 })
 export class MenuService {
 
-  menuCambio = new Subject<Menu[]>();
+  menuChange = new Subject<Menu[]>();
 
   url: string = `${environment.HOST}`;
 
   constructor(private http: HttpClient) { }
 
-  listar(){
+  findAll(){
     let token = sessionStorage.getItem(environment.TOKEN_NAME);
     return this.http.get<Menu[]>(`${this.url}/menus`, {
       headers: new HttpHeaders().set('Authorization', `bearer ${token}`).set('Content-Type', 'application/json')
     });
   }
 
-  listarPorUsuario(nombre: string){
+  findByUser(name: string){
     let token = sessionStorage.getItem(environment.TOKEN_NAME);
-    return this.http.post<Menu[]>(`${this.url}/menus/user`, nombre, {
+    return this.http.post<Menu[]>(`${this.url}/menus/user`, name, {
       headers: new HttpHeaders().set('Authorization', `bearer ${token}`).set('Content-Type', 'application/json')
     });
   }
-  getMenuCambio(){
-    return this.menuCambio.asObservable();
+  getMenuChange(){
+    return this.menuChange.asObservable();
   }
 
-  setMenuCambio(menus: Menu[]){
-    this.menuCambio.next(menus);
+  setMenuChange(menus: Menu[]){
+    this.menuChange.next(menus);
   }
 }

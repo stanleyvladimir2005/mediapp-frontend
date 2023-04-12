@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 })
 export class UtilService {
 
-  estadoProgress = new Subject<boolean>();
-  
+  statusProgress = new Subject<boolean>();
+
   constructor() { }
 }
